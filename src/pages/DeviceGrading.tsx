@@ -1,4 +1,4 @@
-import React from 'react';
+
 import DeviceGradingImage from '../assets/DeviceGrading.png';
 import GradeAImage from '../assets/GradeA.png';
 import GradeBImage from '../assets/GradeB.png';
