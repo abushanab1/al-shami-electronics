@@ -1,4 +1,4 @@
-
+import React from 'react';
 import {
   PackageCheck,
   ShieldCheck,
@@ -46,13 +46,15 @@ const Shop = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products.map(({ title, price }) => {
             const imageName = title.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+            const image = new URL(`../assets/${imageName}.png`, import.meta.url).href;
+
             return (
               <div
                 key={title}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 flex flex-col"
               >
                 <img
-                  src={`src/assets/${imageName}.png`}
+                  src={image}
                   alt={title}
                   className="w-full h-48 object-contain bg-white p-4"
                 />
