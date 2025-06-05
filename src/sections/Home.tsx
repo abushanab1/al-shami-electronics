@@ -26,7 +26,7 @@ const Home = () => {
           transition={{ delay: 1.2, duration: 1 }}
           className="text-lg md:text-xl text-blue-900"
         >
-          Precision repairs. Custom tech. Trusted expertise.
+          Shop Trusted Expertise.
         </motion.p>
 
         <motion.div
