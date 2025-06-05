@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 
 const links = [
   { label: 'Home', path: '/' },
   { label: 'Shop', path: '/shop' },
   { label: 'Device Grading', path: '/device-grading' },
+  { label: 'Cart', path: '/cart' },
 ];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [atTop, setAtTop] = useState(true);
   const location = useLocation();
+  const { cartItems } = useCart();
+  const cartCount = cartItems.length;
 
   useEffect(() => {
     const handleScroll = () => setAtTop(window.scrollY < 10);
@@ -30,14 +34,17 @@ const Navbar = () => {
         key={path}
         to={path}
         className={({ isActive }) =>
-          `transition-colors ${
-            isActive
-              ? 'text-black font-semibold underline'
-              : 'hover:text-black'
+          `relative transition-colors ${
+            isActive ? 'text-black font-semibold underline' : 'hover:text-black'
           } ${mobile ? 'text-left text-lg' : ''}`
         }
       >
         {label}
+        {label === 'Cart' && cartCount > 0 && (
+          <span className="ml-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full inline-flex items-center justify-center">
+            {cartCount}
+          </span>
+        )}
       </NavLink>
     ));
 
@@ -52,7 +59,9 @@ const Navbar = () => {
           Al Shami Electronics
         </NavLink>
 
-        <div className="hidden md:flex space-x-6">{renderLinks()}</div>
+        <div className="hidden md:flex items-center space-x-6">
+          {renderLinks()}
+        </div>
 
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)}>

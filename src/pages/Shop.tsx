@@ -5,6 +5,7 @@ import {
   Smile,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useCart } from '../context/CartContext';
 
 const products = [
   { title: 'IPhone 11', price: 155 },
@@ -29,6 +30,17 @@ const products = [
   { title: 'Iphone SE 2020', price: 85 },
 ];
 
+// Manual image filename correction for inconsistent mappings
+const imageMap: Record<string, string> = {
+  'IPhone 11 PRO MAX': 'IPhone11ProMax',
+  'Iphone 12': 'IPhone12',
+  'Iphone 12 Pro': 'IPhone12Pro',
+  'Iphone 12 Pro Max': 'IPhone12ProMax',
+  'Iphone 13': 'IPhone13',
+  'Iphone 13 Pro': 'IPhone13Pro',
+  'IPhone 15 plus': 'IPhone15Plus',
+};
+
 const features = [
   { title: 'WORLDWIDE SHIPPING', description: 'Overnight shipping available', icon: PackageCheck },
   { title: 'SAFE PAYMENT', description: '100% secure payment', icon: ShieldCheck },
@@ -37,6 +49,8 @@ const features = [
 ];
 
 const Shop = () => {
+  const { addToCart } = useCart();
+
   return (
     <section className="bg-beige min-h-screen py-12 px-6">
       <div className="max-w-7xl mx-auto">
@@ -44,8 +58,9 @@ const Shop = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products.map(({ title, price }) => {
-            const imageName = title.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
-            const image = new URL(`../assets/${imageName}.png`, import.meta.url).href;
+            const key = title;
+            const imageFile = imageMap[key] || title.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+            const image = new URL(`../assets/${imageFile}.png`, import.meta.url).href;
 
             return (
               <div
@@ -63,8 +78,11 @@ const Shop = () => {
                     <p className="text-gray-700 mb-1">From: ${price.toFixed(2)}</p>
                     <p className="text-green-600 font-medium mb-4">In stock</p>
                   </div>
-                  <button className="bg-primary text-white px-4 py-2 rounded-full w-full transition-transform transform hover:scale-105">
-                    Select options
+                  <button
+                    onClick={() => addToCart({ title, price, image })}
+                    className="bg-primary text-white px-4 py-2 rounded-full w-full transition-transform transform hover:scale-105"
+                  >
+                    Add to Cart
                   </button>
                 </div>
               </div>
